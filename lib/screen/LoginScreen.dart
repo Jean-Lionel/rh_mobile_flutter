@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:rh_presence_mobile/routes/api_url.dart';
+import 'package:rh_presence_mobile/screen/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
+  static const String routeName = "/login";
   const LoginScreen({super.key});
   //final PageController controller;
 
@@ -23,8 +29,35 @@ class _LoginScreenState extends State<LoginScreen> {
     prefs = await SharedPreferences.getInstance();
   }
 
-  void longinUser() {
-    print("object in user");
+  void longinUser() async {
+    print("${_emailController.text} + ${_passController.text}");
+    String email = _emailController.text;
+    String pass = _passController.text;
+
+    if (email.isNotEmpty && pass.isNotEmpty) {
+      var reqBody = {
+        "email": email, //"admin@admin.com",
+        "password": pass // "password",
+      };
+
+      final response = await http.post(
+        loginUrl,
+        headers: {
+          "content-type": "application/json",
+        },
+        body: jsonEncode(reqBody),
+      );
+      var jsonResponse = jsonDecode(response.body);
+      //  print(jsonResponse);
+      if (jsonResponse["success"]) {
+        String token = jsonResponse["token"];
+        var user = jsonResponse["user"];
+        prefs.setString('token', token);
+        prefs.setString('user', jsonEncode(user));
+
+        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+      }
+    } else {}
   }
 
   @override
@@ -142,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 329,
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: longinUser,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),
                         ),
