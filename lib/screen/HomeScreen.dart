@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
@@ -10,6 +12,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
+  String? token = "Lionel";
+  late SharedPreferences prefs;
+  LocalData l = new LocalData();
+
+  @override
+  void initState() {
+    super.initState();
+    initSharedPreferences();
+  }
+
+  void initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget child = MainPage();
@@ -19,11 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 1:
         child = FlutterLogo(textColor: Colors.orange);
+        // child = Text("${l.token}");
         break;
       case 2:
         child = Center(
           child: Text(
-            "Comming soon...",
+            " ${l.user}",
             style: Theme.of(context).textTheme.headlineLarge,
           ),
         );

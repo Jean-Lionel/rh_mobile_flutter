@@ -52,9 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
       if (jsonResponse["success"]) {
         String token = jsonResponse["token"];
         var user = jsonResponse["user"];
+        print(jsonResponse["user"]);
         prefs.setString('token', token);
         prefs.setString('user', jsonEncode(user));
-
         Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
       }
     } else {}
