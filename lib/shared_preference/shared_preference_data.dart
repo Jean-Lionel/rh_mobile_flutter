@@ -23,17 +23,20 @@ class LocalData {
   }
 
   String? get token {
-    //initSharedPreferences();
+    initSharedPreferences();
     return _token;
   }
 
   String? get user {
+    initSharedPreferences();
     return _user;
   }
 
   User get connectedUser {
-    var x = _user != null ? jsonDecode(_user!) : '[{"id": "1"}]';
-    User r = User.fromJosn(x);
-    return r;
+    initSharedPreferences();
+    print("======== CONnected user");
+    print(_user);
+    print("======== CONnected user");
+    return new User();
   }
 }

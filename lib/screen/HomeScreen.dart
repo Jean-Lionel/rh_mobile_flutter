@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
@@ -16,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
   String? token = "Lionel";
   late SharedPreferences prefs;
-  LocalData l = new LocalData();
 
   @override
   void initState() {
@@ -71,39 +74,70 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class HeaderComponentPage extends StatefulWidget {
+  const HeaderComponentPage({super.key});
+
+  @override
+  State<HeaderComponentPage> createState() => _HeaderComponentPageState();
+}
+
+class _HeaderComponentPageState extends State<HeaderComponentPage> {
+  late SharedPreferences prefs;
+  late User user;
+  late String userName = "";
+  late String email = "";
+  @override
+  void initState() {
+    super.initState();
+    initializePreference();
+  }
+
+  void initializePreference() async {
+    prefs = await SharedPreferences.getInstance();
+    print("================================");
+    var jsonUser = prefs.getString('user');
+    var user = jsonDecode(jsonUser!);
+    userName = user["name"];
+    email = user["email"];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Text("$userName", style: Theme.of(context).textTheme!.titleLarge),
+              Text("$email", style: Theme.of(context).textTheme!.bodySmall),
+              Divider(
+                height: 20,
+                color: Colors.grey,
+              )
+            ],
+          ),
+        ),
+        CircleAvatar(
+          radius: 50,
+          child: Icon(
+            Icons.person_2,
+            size: 100,
+          ),
+        )
+      ],
+    );
+  }
+}
+
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    LocalData l = new LocalData();
-    User user = l.connectedUser;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
       child: Column(children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Text("${user.name}",
-                      style: Theme.of(context).textTheme!.titleLarge),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  )
-                ],
-              ),
-            ),
-            CircleAvatar(
-              radius: 50,
-              child: Icon(
-                Icons.person_2,
-                size: 100,
-              ),
-            )
-          ],
-        ),
+        HeaderComponentPage(),
         SizedBox(
           height: 20,
         ),

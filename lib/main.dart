@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rh_presence_mobile/screen/HomeScreen.dart';
 import 'package:rh_presence_mobile/screen/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,8 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: LoginScreen(),
-      initialRoute:
-          token!.isNotEmpty ? HomeScreen.routeName : LoginScreen.routeName,
+      initialRoute: (token != null && token!.isNotEmpty)
+          ? HomeScreen.routeName
+          : LoginScreen.routeName,
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),

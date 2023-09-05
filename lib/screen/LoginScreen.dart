@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:rh_presence_mobile/routes/api_url.dart';
 import 'package:rh_presence_mobile/screen/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     initSharedPreferences();
+    _emailController.text = "admin@admin.com";
+    _passController.text = "password";
   }
 
   void initSharedPreferences() async {
@@ -47,15 +50,19 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         body: jsonEncode(reqBody),
       );
-      print(response.body);
+
       var jsonResponse = jsonDecode(response.body);
 
       if (jsonResponse["success"]) {
         String token = jsonResponse["token"];
         var user = jsonResponse["user"];
-        print(jsonResponse["user"]);
+
+        User x = new User.fromJosn(user);
+        var json = x.toJson();
+
         prefs.setString('token', token);
-        prefs.setString('user', jsonEncode(user));
+        prefs.setString('user', jsonEncode(json));
+
         Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
       }
     } else {}
