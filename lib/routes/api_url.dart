@@ -5,4 +5,5 @@ Uri makeUrl(String url) {
   return Uri.parse(full_url);
 }
 
-final loginUrl = makeUrl("login");
+final LOGIN_URL = makeUrl("login");
+final LOGOUT_URL = makeUrl("logout");

@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       };
 
       final response = await http.post(
-        loginUrl,
+        LOGOUT_URL,
         headers: {
           "content-type": "application/json",
         },
