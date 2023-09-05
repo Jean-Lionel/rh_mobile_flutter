@@ -41,14 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
       };
 
       final response = await http.post(
-        LOGOUT_URL,
+        LOGIN_URL,
         headers: {
           "content-type": "application/json",
         },
         body: jsonEncode(reqBody),
       );
+      print(response.body);
       var jsonResponse = jsonDecode(response.body);
-      //  print(jsonResponse);
+
       if (jsonResponse["success"]) {
         String token = jsonResponse["token"];
         var user = jsonResponse["user"];

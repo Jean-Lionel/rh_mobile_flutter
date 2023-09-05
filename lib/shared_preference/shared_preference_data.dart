@@ -14,6 +14,11 @@ class LocalData {
     _user = prefs.getString('user');
   }
 
+  void logoutUser() {
+    prefs.remove('token');
+    prefs.remove('user');
+  }
+
   String? get token {
     //initSharedPreferences();
     return _token;

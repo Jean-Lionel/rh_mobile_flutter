@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
+import 'package:rh_presence_mobile/widget/logout_componet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,9 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 2:
         child = Center(
-          child: Text(
-            " ${l.user}",
-            style: Theme.of(context).textTheme.headlineLarge,
+          child: Column(
+            children: [
+              Text(
+                " ${l.user}",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              LogoutComponet(),
+            ],
           ),
         );
         break;
