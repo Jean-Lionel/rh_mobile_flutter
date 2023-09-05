@@ -4,7 +4,6 @@ import 'package:rh_presence_mobile/screen/LoginScreen.dart';
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

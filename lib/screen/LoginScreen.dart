@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   //final PageController controller;
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -10,6 +12,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  late SharedPreferences prefs;
+  @override
+  void initState() {
+    super.initState();
+    initSharedPreferences();
+  }
+
+  void initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  void longinUser() {
+    print("object in user");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          // widget.controller.animateToPage(1,
-                          //     duration: const Duration(milliseconds: 500),
-                          //     curve: Curves.ease);
+                          print('Please');
+                          longinUser();
                         },
                         child: const Text(
                           'Sign Up',
