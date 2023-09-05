@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
 import 'package:rh_presence_mobile/widget/logout_componet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Text(
-                " ${l.user}",
+                " BONJOUR",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               LogoutComponet(),
@@ -75,6 +76,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocalData l = new LocalData();
+    User user = l.connectedUser;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
       child: Column(children: [
@@ -83,7 +86,7 @@ class MainPage extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Text("Archange Ngabirano",
+                  Text("${user.name}",
                       style: Theme.of(context).textTheme!.titleLarge),
                   Divider(
                     height: 20,

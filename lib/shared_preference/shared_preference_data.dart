@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData {
@@ -26,5 +29,11 @@ class LocalData {
 
   String? get user {
     return _user;
+  }
+
+  User get connectedUser {
+    var x = _user != null ? jsonDecode(_user!) : '[{"id": "1"}]';
+    User r = User.fromJosn(x);
+    return r;
   }
 }
