@@ -30,8 +30,6 @@ class _LogoutComponetState extends State<LogoutComponet> {
   }
 
   void logout(ctx) async {
-    print("TOken , ${token}");
-
     if (token!.isEmpty) {
       Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
     }
@@ -44,18 +42,11 @@ class _LogoutComponetState extends State<LogoutComponet> {
       },
       encoding: Encoding.getByName("utf-8"),
     );
-
-    print("URL $LOGOUT_URL");
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['success']) {
         Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
       }
-    } else {
-      print(response.statusCode);
-      print(response.body);
     }
     Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
   }

@@ -7,6 +7,8 @@ import 'package:rh_presence_mobile/screen/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../shared_preference/shared_preference_data.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login";
   const LoginScreen({super.key});
@@ -60,9 +62,10 @@ class _LoginScreenState extends State<LoginScreen> {
         var user = jsonResponse["user"];
         User x = new User.fromJosn(user);
         var json = x.toJson();
+        await UserSimplePeference.setUserName(x.name);
+        await UserSimplePeference.setUserEmail(x.email);
         prefs.setString('token', token);
         prefs.setString('user', jsonEncode(json));
-
         Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
       }
     } else {}

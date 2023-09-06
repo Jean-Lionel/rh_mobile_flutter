@@ -1,39 +1,17 @@
-import 'dart:convert';
-
-import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalData {
-  late SharedPreferences prefs;
-  String? _token = "";
-  String? _user = null;
-  LocalData() {
-    initSharedPreferences();
-  }
-  void initSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
-    _token = prefs.getString('token');
-    _user = prefs.getString('user');
-  }
+class UserSimplePeference {
+  static late SharedPreferences prefs;
+  static const String _keyUserName = "user_name";
+  static const String _keyEmail = "user_email";
 
-  void logoutUser() {
-    prefs.remove('token');
-    prefs.remove('user');
-  }
+  static Future init() async => prefs = await SharedPreferences.getInstance();
 
-  String? get token {
-    return _token;
-  }
+  static Future setUserName(String userName) async =>
+      await prefs.setString(_keyUserName, userName);
+  static Future setUserEmail(String email) async =>
+      await prefs.setString(_keyEmail, email);
 
-  String? get user {
-    return _user;
-  }
-
-  User get connectedUser {
-    initSharedPreferences();
-    print("======== CONnected user");
-    print(_user);
-    print("======== CONnected user");
-    return new User();
-  }
+  static String getUserName() => prefs.getString(_keyUserName) ?? "";
+  static String getEmail() => prefs.getString(_keyEmail) ?? "";
 }

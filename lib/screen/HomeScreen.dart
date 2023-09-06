@@ -83,32 +83,26 @@ class HeaderComponentPage extends StatefulWidget {
 
 class _HeaderComponentPageState extends State<HeaderComponentPage> {
   late SharedPreferences prefs;
-  late User user;
-  late String userName = "";
-  late String email = "";
+
+  String userName = "";
+  String email = "";
   @override
   void initState() {
     super.initState();
-    initializePreference();
-  }
-
-  void initializePreference() async {
-    prefs = await SharedPreferences.getInstance();
-    var jsonUser = prefs.getString('user');
-    var user = jsonDecode(jsonUser!);
-    userName = user["name"];
-    email = user["email"];
+    userName = UserSimplePeference.getUserName();
+    email = UserSimplePeference.getEmail();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Emails: $email ");
     return Row(
       children: [
         Expanded(
           child: Column(
             children: [
-              Text("$userName", style: Theme.of(context).textTheme!.titleLarge),
-              Text("$email", style: Theme.of(context).textTheme!.bodySmall),
+              Text("$userName", style: Theme.of(context).textTheme.titleLarge),
+              Text("$email", style: Theme.of(context).textTheme.bodySmall),
               Divider(
                 height: 20,
                 color: Colors.grey,
