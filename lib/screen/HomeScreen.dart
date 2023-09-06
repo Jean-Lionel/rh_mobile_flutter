@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:rh_presence_mobile/model/user_model.dart';
+import 'package:rh_presence_mobile/routes/api_url.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
 import 'package:rh_presence_mobile/widget/logout_componet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
@@ -94,7 +94,6 @@ class _HeaderComponentPageState extends State<HeaderComponentPage> {
 
   void initializePreference() async {
     prefs = await SharedPreferences.getInstance();
-    print("================================");
     var jsonUser = prefs.getString('user');
     var user = jsonDecode(jsonUser!);
     userName = user["name"];
@@ -151,22 +150,51 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class ArriveButton extends StatelessWidget {
+class ArriveButton extends StatefulWidget {
   const ArriveButton({Key? key}) : super(key: key);
+
+  @override
+  State<ArriveButton> createState() => _ArriveButtonState();
+}
+
+class _ArriveButtonState extends State<ArriveButton> {
+  late SharedPreferences prefs;
+  String? token;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initPrefs();
+  }
+
+  void initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    token = prefs.getString("token");
+  }
+
+  void setArrverUser(context) async {
+    print(token);
+    final response = await http.post(CHECK_ARRIVE_USER_URL, headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      'Authorization': 'Bearer ${token}',
+    });
+    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    print(response.body);
+
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              content: Text('Ok Vous etes dejariver'),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: InkWell(
-        onTap: () {
-          print("Tu viens d'arriver sur l'entreprise");
-
-          showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                    content: Text('Ok Vous etes dejariver'),
-                  ));
-        },
+        onTap: () => setArrverUser(context),
         child: Center(
           child: CircleAvatar(
             radius: 120,

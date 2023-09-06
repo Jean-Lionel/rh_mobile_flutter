@@ -5,29 +5,59 @@ import 'package:http/http.dart' as http;
 import 'package:rh_presence_mobile/routes/api_url.dart';
 import 'package:rh_presence_mobile/screen/LoginScreen.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LogoutComponet extends StatelessWidget {
+class LogoutComponet extends StatefulWidget {
   const LogoutComponet({Key? key}) : super(key: key);
 
+  @override
+  State<LogoutComponet> createState() => _LogoutComponetState();
+}
+
+class _LogoutComponetState extends State<LogoutComponet> {
+  late SharedPreferences prefs;
+  late String? token;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initePrefs();
+  }
+
+  void initePrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+  }
+
   void logout(ctx) async {
-    LocalData l = new LocalData();
+    print("TOken , ${token}");
 
-    if (l.token!.isEmpty) {
+    if (token!.isEmpty) {
       Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
     }
+    final response = await http.post(
+      LOGOUT_URL,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer ${token}"
+      },
+      encoding: Encoding.getByName("utf-8"),
+    );
 
-    final response = await http.post(LOGOUT_URL, headers: {
-      "Content-Type": "application/json",
-      'Authentication': 'Bearer ${l.token}'
-    });
-    var jsonResponse = jsonDecode(response.body);
-    print("================================");
-    print(response.body);
-    if (jsonResponse['success']) {
-      LocalData l = new LocalData();
-      l.logoutUser();
-      Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
+    print("URL $LOGOUT_URL");
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['success']) {
+        Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
+      }
+    } else {
+      print(response.statusCode);
+      print(response.body);
     }
+    Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
   }
 
   @override

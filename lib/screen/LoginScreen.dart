@@ -47,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         LOGIN_URL,
         headers: {
           "content-type": "application/json",
+          "Accept": "application/json"
         },
         body: jsonEncode(reqBody),
       );
@@ -55,11 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (jsonResponse["success"]) {
         String token = jsonResponse["token"];
+        print("token : $token");
         var user = jsonResponse["user"];
-
         User x = new User.fromJosn(user);
         var json = x.toJson();
-
         prefs.setString('token', token);
         prefs.setString('user', jsonEncode(json));
 

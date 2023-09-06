@@ -11,7 +11,6 @@ class LocalData {
     initSharedPreferences();
   }
   void initSharedPreferences() async {
-    print("LocalData.initSharedPreferences");
     prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
     _user = prefs.getString('user');
@@ -23,12 +22,10 @@ class LocalData {
   }
 
   String? get token {
-    initSharedPreferences();
     return _token;
   }
 
   String? get user {
-    initSharedPreferences();
     return _user;
   }
 
