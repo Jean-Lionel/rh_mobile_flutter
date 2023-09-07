@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:rh_presence_mobile/routes/api_url.dart';
+import 'package:rh_presence_mobile/screen/PresenceScreen.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
 import 'package:rh_presence_mobile/widget/logout_componet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child = MainPage();
         break;
       case 1:
-        child = FlutterLogo(textColor: Colors.orange);
+        child = PresenceScreen();
         // child = Text("${l.token}");
         break;
       case 2:

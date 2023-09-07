@@ -4,6 +4,7 @@ class UserSimplePeference {
   static late SharedPreferences prefs;
   static const String _keyUserName = "user_name";
   static const String _keyEmail = "user_email";
+  static const String _token = "token";
 
   static Future init() async => prefs = await SharedPreferences.getInstance();
 
@@ -14,4 +15,5 @@ class UserSimplePeference {
 
   static String getUserName() => prefs.getString(_keyUserName) ?? "";
   static String getEmail() => prefs.getString(_keyEmail) ?? "";
+  static String getToken() => prefs.getString(_token) ?? "";
 }

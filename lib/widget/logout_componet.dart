@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutComponet extends StatefulWidget {
   const LogoutComponet({Key? key}) : super(key: key);
-
   @override
   State<LogoutComponet> createState() => _LogoutComponetState();
 }
@@ -17,6 +16,7 @@ class LogoutComponet extends StatefulWidget {
 class _LogoutComponetState extends State<LogoutComponet> {
   late SharedPreferences prefs;
   late String? token;
+  String? errorMessage;
   @override
   void initState() {
     // TODO: implement initState
@@ -42,20 +42,31 @@ class _LogoutComponetState extends State<LogoutComponet> {
       },
       encoding: Encoding.getByName("utf-8"),
     );
+    //print(response);
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['success']) {
         Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
       }
+    } else {
+      setState(() {
+        errorMessage = "Eoops, something";
+      });
     }
     Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => logout(context),
-      child: Text('Logout'),
+    return Container(
+      child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () => logout(context),
+            child: Text('Logout'),
+          ),
+        ],
+      ),
     );
   }
 }

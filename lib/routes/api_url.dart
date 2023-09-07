@@ -6,6 +6,9 @@ Uri makeUrl(String url) {
   return Uri.parse(full_url);
 }
 
+const requestHeaders = {};
+
 final LOGIN_URL = makeUrl("login/");
 final CHECK_ARRIVE_USER_URL = makeUrl("arriver_user");
+final PRESENCE_URL = makeUrl("presences");
 final LOGOUT_URL = makeUrl("logout");
