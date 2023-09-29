@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rh_presence_mobile/routes/api_url.dart';
 import 'package:rh_presence_mobile/screen/PresenceScreen.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
@@ -44,17 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // child = Text("${l.token}");
         break;
       case 2:
-        child = Center(
-          child: Column(
-            children: [
-              Text(
-                " BONJOUR",
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              LogoutComponet(),
-            ],
-          ),
-        );
+        child = LogoutComponet();
         break;
     }
     return Scaffold(
@@ -65,9 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _index,
         iconSize: 35,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.looks_one), label: "Blue"),
-          BottomNavigationBarItem(icon: Icon(Icons.looks_two), label: "Orange"),
-          BottomNavigationBarItem(icon: Icon(Icons.looks_3), label: "Red"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Accueil",
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.access_time), label: "Orange"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: "Déconnexion",
+          ),
         ],
       ),
     );
@@ -174,8 +172,6 @@ class _ArriveButtonState extends State<ArriveButton> {
       "Accept": "application/json",
       'Authorization': 'Bearer ${token}',
     });
-    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-    print(response.body);
 
     showDialog(
         context: context,
@@ -201,7 +197,13 @@ class _ArriveButtonState extends State<ArriveButton> {
 }
 
 class CardDashBoard extends StatelessWidget {
-  const CardDashBoard({super.key});
+  CardDashBoard({super.key});
+
+  static final DateTime now = DateTime.now();
+  static final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  static final DateFormat formatterTime = DateFormat('HH:mm');
+  final String formatted = formatter.format(now);
+  final String formattedTime = formatterTime.format(now);
 
   @override
   Widget build(BuildContext context) {
@@ -240,12 +242,23 @@ class CardDashBoard extends StatelessWidget {
                   .copyWith(color: Colors.white),
             ),
             title: Center(
-              child: Text(
-                '2023-09-01',
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall!
-                    .copyWith(color: Colors.white),
+              child: Column(
+                children: [
+                  Text(
+                    '$formattedTime',
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    '$formatted',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.white),
+                  ),
+                ],
               ),
             ),
           ),

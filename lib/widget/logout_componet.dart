@@ -30,29 +30,32 @@ class _LogoutComponetState extends State<LogoutComponet> {
   }
 
   void logout(ctx) async {
-    if (token!.isEmpty) {
-      Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
-    }
-    final response = await http.post(
-      LOGOUT_URL,
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": "Bearer ${token}"
-      },
-      encoding: Encoding.getByName("utf-8"),
-    );
-    //print(response);
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['success']) {
-        Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
+    UserSimplePeference.lougoutUser();
+
+    try {
+      final response = await http.post(
+        LOGOUT_URL,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer ${token}"
+        },
+        encoding: Encoding.getByName("utf-8"),
+      );
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['success']) {
+          Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
+        }
+      } else {
+        setState(() {
+          errorMessage = "Eoops, something";
+        });
       }
-    } else {
-      setState(() {
-        errorMessage = "Eoops, something";
-      });
-    }
+    } catch (e) {}
+
+    //print(response);
+
     Navigator.of(ctx).popAndPushNamed(LoginScreen.routeName);
   }
 
@@ -60,10 +63,21 @@ class _LogoutComponetState extends State<LogoutComponet> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () => logout(context),
-            child: Text('Logout'),
+          InkWell(
+            onTap: () {
+              logout(context);
+            },
+            child: const CircleAvatar(
+              backgroundColor: Colors.black87,
+              radius: 150,
+              child: Icon(
+                Icons.logout,
+                size: 80,
+              ),
+            ),
           ),
         ],
       ),

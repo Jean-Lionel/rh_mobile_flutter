@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rh_presence_mobile/model/user_model.dart';
 import 'package:rh_presence_mobile/routes/api_url.dart';
+import 'package:rh_presence_mobile/screen/ApiAdress.dart';
 import 'package:rh_presence_mobile/screen/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -68,7 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
         prefs.setString('user', jsonEncode(json));
         Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
       }
-    } else {}
+    } else {
+      Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+    }
   }
 
   @override
@@ -208,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     children: [
                       const Text(
-                        'Don’t have an account?',
+                        'Change Ip address',
                         style: TextStyle(
                           color: Color(0xFF837E93),
                           fontSize: 13,
@@ -222,10 +225,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       InkWell(
                         onTap: () {
                           print('Please');
-                          longinUser();
+                          Navigator.of(context).pushNamed(ApiAdress.routeName);
                         },
-                        child: const Text(
-                          'Sign Up',
+                        child: Text(
+                          'Change',
                           style: TextStyle(
                             color: Color(0xFF755DC1),
                             fontSize: 13,
@@ -238,15 +241,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(
                     height: 15,
-                  ),
-                  const Text(
-                    'Forget Password?',
-                    style: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
                   ),
                 ],
               ),

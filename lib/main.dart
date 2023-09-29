@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rh_presence_mobile/screen/ApiAdress.dart';
 import 'package:rh_presence_mobile/screen/HomeScreen.dart';
 import 'package:rh_presence_mobile/screen/LoginScreen.dart';
 import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
+        ApiAdress.routeName: (_) => ApiAdress(),
       },
     );
   }
