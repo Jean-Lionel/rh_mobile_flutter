@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
-  String? token = "Lionel";
+  String? token = "";
   late SharedPreferences prefs;
 
   @override
@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: "Accueil",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.access_time), label: "Orange"),
+              icon: Icon(Icons.access_time), label: "Historique"),
           BottomNavigationBarItem(
             icon: Icon(Icons.logout),
             label: "Déconnexion",

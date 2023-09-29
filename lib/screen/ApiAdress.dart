@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
 
 class ApiAdress extends StatelessWidget {
   static const String routeName = "/api-adreese";
@@ -6,11 +7,13 @@ class ApiAdress extends StatelessWidget {
   final TextEditingController _apiController = TextEditingController();
 
   void saveIpAdresse() {
-    print("Saving ... ");
+    print(_apiController.text);
+    UserSimplePeference.setApiAdress(_apiController.text);
   }
 
   @override
   Widget build(BuildContext context) {
+    _apiController.text = UserSimplePeference.getIpAdress();
     return Scaffold(
       appBar: AppBar(title: Text("SETTING API ADDRESS")),
       body: Padding(
@@ -30,7 +33,7 @@ class ApiAdress extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
                 decoration: const InputDecoration(
-                  labelText: 'Password',
+                  labelText: 'IP ADRESS',
                   labelStyle: TextStyle(
                     color: Color(0xFF755DC1),
                     fontSize: 15,

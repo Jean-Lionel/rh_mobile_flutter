@@ -10,6 +10,7 @@ class PresenceScreen extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     //ApiService.getListePresence();
     final _data = ref.refresh(serviceDataProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Historique des presences"),

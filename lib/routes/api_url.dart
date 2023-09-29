@@ -1,5 +1,9 @@
 //const IP_ADDRESS = "http://10.250.1.75:8000/api/";
-const IP_ADDRESS = "http://192.168.77.107:8000/api/";
+import 'package:rh_presence_mobile/shared_preference/shared_preference_data.dart';
+
+final ip = UserSimplePeference.getIpAdress();
+
+final String IP_ADDRESS = "http://$ip:8000/api/";
 
 Uri makeUrl(String url) {
   String full_url = IP_ADDRESS + url;
